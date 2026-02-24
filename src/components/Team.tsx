@@ -24,9 +24,9 @@ export function Team() {
 
   const students = [
     {
-      name: 'Student Name 1',
-      role: 'AI & NLP Lead',
-      rollNo: 'Roll No: BSCS-F21-001',
+      name: 'SYED MUHAMMAD UMER',
+      role: 'Backend Developer',
+      rollNo: 'Reg Id: BS(SE) 62993',
       specialty: 'Natural Language Processing'
     },
     {

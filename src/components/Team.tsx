@@ -38,7 +38,7 @@ export function Team() {
     {
       name: 'AHMED ALI GHORI',
       role: 'Frontend Developer',
-      rollNo: 'Reg Id: BS(SE) 62993',
+      rollNo: 'Reg Id: BS(SE) id not givin',
       specialty: 'UI/UX Design'
     },
     {

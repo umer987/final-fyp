@@ -30,15 +30,15 @@ export function Team() {
       specialty: 'Natural Language Processing'
     },
     {
-      name: 'Student Name 2',
+      name: 'MUHAMMAD SHAHMIR IQBAL',
       role: 'Backend Developer',
-      rollNo: 'Roll No: BSCS-F21-002',
+      rollNo: 'Reg Id: BS(SE) 62602',
       specialty: 'Server Architecture'
     },
     {
-      name: 'Student Name 3',
+      name: 'AHMED ALI GHORI',
       role: 'Frontend Developer',
-      rollNo: 'Roll No: BSCS-F21-003',
+      rollNo: 'Reg Id: BS(SE) 62993',
       specialty: 'UI/UX Design'
     },
     {

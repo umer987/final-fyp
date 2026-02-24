@@ -25,7 +25,7 @@ export function Team() {
   const students = [
     {
       name: 'SYED MUHAMMAD UMER',
-      role: 'Backend Developer',
+      role: 'Backend Developer + Team Lead',
       rollNo: 'Reg Id: BS(SE) 62993',
       specialty: 'Natural Language Processing'
     },
@@ -45,7 +45,7 @@ export function Team() {
       name: 'RAMEEL KHAN',
       role: 'Database Engineer',
       rollNo: 'Reg Id: BS(SE) 62602',
-      specialty: 'Data Management'
+      specialty: 'Documentation'
     }
   ];
 

@@ -44,7 +44,7 @@ export function Hero() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
-            <div className={`text-white ${isAnimated ? 'animate-slide-in-left' : 'opacity-0'}`}>
+            <div className={`text-black ${isAnimated ? 'animate-slide-in-left' : 'opacity-0'}`}>
               <div className="mb-4 inline-block">
                 <span className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
                   AI-Powered Legal Assistant

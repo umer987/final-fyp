@@ -42,18 +42,18 @@ export function Team() {
       specialty: 'UI/UX Design'
     },
     {
-      name: 'Student Name 4',
+      name: 'RAMEEL KHAN',
       role: 'Database Engineer',
-      rollNo: 'Roll No: BSCS-F21-004',
+      rollNo: 'Reg Id: BS(SE) 62602',
       specialty: 'Data Management'
     }
   ];
 
   const supervisor = {
-    name: 'Dr. Supervisor Name',
-    title: 'PhD, Computer Science',
+    name: 'ABDUL WAHAB KHAN',
+    title: 'MS, Computer Science',
     role: 'Project Supervisor',
-    department: 'Department of Computer Science'
+    department: 'Department of FEST'
   };
 
   return (

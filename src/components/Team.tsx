@@ -34,6 +34,8 @@ export function Team() {
       specialty: 'Full Stack Engineer',
       image: umerImage
     },
+    {
+      name: 'MUHAMMAD SHAHMIR IQBAL',
  
 
   const supervisor = {

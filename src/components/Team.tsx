@@ -42,6 +42,8 @@ export function Team() {
       image: shahImage
     },
     {
+      name: 'AHMED ALI GHORI',
+      role: 'Frontend Developer',
  
 
   const supervisor = {

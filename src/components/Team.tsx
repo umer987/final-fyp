@@ -30,6 +30,8 @@ export function Team() {
     {
       name: 'SYED MUHAMMAD UMER',
       role: 'Backend Developer + Team Lead',
+      rollNo: 'Reg Id: BS(SE) 62993',
+      specialty: 'Full Stack Engineer',
  
 
   const supervisor = {

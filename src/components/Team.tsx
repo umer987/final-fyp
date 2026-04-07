@@ -48,6 +48,7 @@ export function Team() {
       specialty: 'Nlp Engineer',
       image: aliImage
     },
+    {
  
 
   const supervisor = {

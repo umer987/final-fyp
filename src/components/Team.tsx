@@ -26,6 +26,9 @@ export function Team() {
     return () => observer.disconnect();
   }, []);
 
+  const students = [
+    {
+      name: 'SYED MUHAMMAD UMER',
  
 
   const supervisor = {

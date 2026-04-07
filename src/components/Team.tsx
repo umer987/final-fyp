@@ -29,6 +29,7 @@ export function Team() {
   const students = [
     {
       name: 'SYED MUHAMMAD UMER',
+      role: 'Backend Developer + Team Lead',
  
 
   const supervisor = {

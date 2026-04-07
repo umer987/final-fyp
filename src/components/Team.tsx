@@ -36,6 +36,7 @@ export function Team() {
     },
     {
       name: 'MUHAMMAD SHAHMIR IQBAL',
+      role: 'Frontend Developer',
  
 
   const supervisor = {

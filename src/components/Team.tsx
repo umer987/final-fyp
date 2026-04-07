@@ -50,6 +50,7 @@ export function Team() {
     },
     {
       name: 'RAMEEL KHAN',
+      role: 'Database Engineer',
  
 
   const supervisor = {

@@ -38,6 +38,8 @@ export function Team() {
       name: 'MUHAMMAD SHAHMIR IQBAL',
       role: 'Frontend Developer',
       rollNo: 'Reg Id: BS(SE) 62602',
+      specialty: 'Frontend Engineer',
+      image: shahImage
  
 
   const supervisor = {

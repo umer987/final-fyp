@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GraduationCap, Award } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+import umerImage from './umer.jpeg';
+import shahImage from './shah.jpeg';
+import rameelImage from './rameel.jpeg';
+import aliImage from './ali.jpeg';
 
 export function Team() {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,39 +26,18 @@ export function Team() {
     return () => observer.disconnect();
   }, []);
 
-  const students = [
-    {
-      name: 'SYED MUHAMMAD UMER',
-      role: 'Backend Developer + Team Lead',
-      rollNo: 'Reg Id: BS(SE) 62993',
-      specialty: 'Natural Language Processing'
-    },
-    {
-      name: 'MUHAMMAD SHAHMIR IQBAL',
-      role: 'Backend Developer',
-      rollNo: 'Reg Id: BS(SE) 62602',
-      specialty: 'Server Architecture'
-    },
-    {
-      name: 'AHMED ALI GHORI',
-      role: 'Frontend Developer',
-      rollNo: 'Reg Id: BS(SE) id not givin',
-      specialty: 'UI/UX Design'
-    },
-    {
-      name: 'RAMEEL KHAN',
-      role: 'Database Engineer',
-      rollNo: 'Reg Id: BS(SE) 62602',
-      specialty: 'Documentation'
-    }
-  ];
+ 
 
   const supervisor = {
     name: 'ABDUL WAHAB KHAN',
     title: 'MS, Computer Science',
     role: 'Project Supervisor',
-    department: 'Department of FEST'
+    department: 'Department of FEST',
+    image: 'supervisor.png'
   };
+
+
+
 
   return (
     <section ref={sectionRef} className="py-24 bg-white">
@@ -78,11 +61,15 @@ export function Team() {
             {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full -ml-24 -mb-24"></div>
-            
+
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-              {/* Avatar */}
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#C5A253] to-[#D4B76E] flex items-center justify-center shadow-xl">
-                <Award className="w-16 h-16 text-white" />
+              {/* Image */}
+              <div className="w-32 h-32 rounded-full overflow-hidden shadow-xl ring-4 ring-[#C5A253]">
+                <ImageWithFallback
+                  src={supervisor.image}
+                  alt={supervisor.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Info */}
@@ -109,17 +96,20 @@ export function Team() {
           {students.map((student, index) => (
             <div
               key={index}
-              className={`group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 border-[#0B3D2E]/10 hover:border-[#1FAA59]/50 ${
-                isVisible ? 'animate-fade-in-up' : 'opacity-0'
-              }`}
+              className={`group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 border-[#0B3D2E]/10 hover:border-[#1FAA59]/50 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'
+                }`}
               style={{ animationDelay: `${(index + 2) * 0.1}s` }}
             >
               {/* Top Accent */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1FAA59] to-[#0B3D2E] rounded-t-2xl"></div>
 
-              {/* Avatar */}
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#E8F5ED] to-[#1FAA59]/20 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
-                <GraduationCap className="w-10 h-10 text-[#1FAA59]" />
+              {/* Image */}
+              <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden shadow-md group-hover:scale-110 transition-transform duration-300 ring-2 ring-[#1FAA59]/20">
+                <ImageWithFallback
+                  src={student.image}
+                  alt={student.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Name */}

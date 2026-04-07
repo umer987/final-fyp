@@ -128,7 +128,7 @@ export function LegalTopicsPage() {
             {topics.map((topic, index) => {
               const Icon = topic.icon;
               const isExpanded = selectedTopic === index;
-              
+
               return (
                 <div
                   key={index}
@@ -136,9 +136,8 @@ export function LegalTopicsPage() {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div
-                    className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer ${
-                      isExpanded ? 'ring-2 ring-[#1FAA59]' : ''
-                    }`}
+                    className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer ${isExpanded ? 'ring-2 ring-[#1FAA59]' : ''
+                      }`}
                     onClick={() => setSelectedTopic(isExpanded ? null : index)}
                   >
                     {/* Topic Header */}

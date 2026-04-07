@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, Plus, Edit, Check, X, AlertTriangle, Filter } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Plus, Edit, Check, X, AlertTriangle, Filter, Save, XCircle } from 'lucide-react';
 
 interface LegalEntry {
   id: number;
@@ -14,69 +14,128 @@ interface LegalEntry {
 export function LegalKnowledgeBase() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<LegalEntry | null>(null);
+  const [legalEntries, setLegalEntries] = useState<LegalEntry[]>([]);
 
-  const legalEntries: LegalEntry[] = [
-    {
-      id: 1,
-      category: 'Family Law',
-      section: 'Muslim Family Laws Ordinance 1961',
-      urduSummary: 'خاندانی قوانین کے تحت طلاق کے احکام اور طریقہ کار',
-      englishSummary: 'Divorce rules and procedures under family law ordinance',
-      status: 'approved',
-      lastUpdated: '2024-01-05'
-    },
-    {
-      id: 2,
-      category: 'Property Law',
-      section: 'Transfer of Property Act 1882 - Section 54',
-      urduSummary: 'جائیداد کی منتقلی کے قوانین اور دستاویزات',
-      englishSummary: 'Property transfer laws and documentation requirements',
-      status: 'approved',
-      lastUpdated: '2024-01-04'
-    },
-    {
-      id: 3,
-      category: 'Criminal Law',
-      section: 'Pakistan Penal Code - Section 302',
-      urduSummary: 'قتل کی سزا اور قانونی کارروائی',
-      englishSummary: 'Murder punishment and legal proceedings',
-      status: 'pending',
-      lastUpdated: '2024-01-03'
-    },
-    {
-      id: 4,
-      category: 'Business Law',
-      section: 'Companies Act 2017 - Registration',
-      urduSummary: 'کمپنی کی رجسٹریشن کا طریقہ کار',
-      englishSummary: 'Company registration procedures and requirements',
-      status: 'review',
-      lastUpdated: '2024-01-02'
-    },
-    {
-      id: 5,
-      category: 'Civil Law',
-      section: 'Contract Act 1872 - Section 10',
-      urduSummary: 'معاہدے کی قانونی حیثیت اور شرائط',
-      englishSummary: 'Legal validity of contracts and conditions',
-      status: 'approved',
-      lastUpdated: '2024-01-01'
-    },
-    {
-      id: 6,
-      category: 'Labour Law',
-      section: 'Industrial Relations Act 2012',
-      urduSummary: 'مزدور کے حقوق اور ملازمت کے قوانین',
-      englishSummary: 'Worker rights and employment laws',
-      status: 'pending',
-      lastUpdated: '2023-12-30'
+  // Load entries from localStorage on mount
+  useEffect(() => {
+    const storedEntries = localStorage.getItem('legalKnowledgeBase');
+    if (storedEntries) {
+      setLegalEntries(JSON.parse(storedEntries));
+    } else {
+      // Initialize with default data
+      const initialData: LegalEntry[] = [
+        {
+          id: 1,
+          category: 'Family Law',
+          section: 'Muslim Family Laws Ordinance 1961',
+          urduSummary: 'خاندانی قوانین کے تحت طلاق کے احکام اور طریقہ کار',
+          englishSummary: 'Divorce rules and procedures under family law ordinance',
+          status: 'approved',
+          lastUpdated: '2024-01-05'
+        },
+        {
+          id: 2,
+          category: 'Property Law',
+          section: 'Transfer of Property Act 1882 - Section 54',
+          urduSummary: 'جائیداد کی منتقلی کے قوانین اور دستاویزات',
+          englishSummary: 'Property transfer laws and documentation requirements',
+          status: 'approved',
+          lastUpdated: '2024-01-04'
+        },
+        {
+          id: 3,
+          category: 'Criminal Law',
+          section: 'Pakistan Penal Code - Section 302',
+          urduSummary: 'قتل کی سزا اور قانونی کارروائی',
+          englishSummary: 'Murder punishment and legal proceedings',
+          status: 'pending',
+          lastUpdated: '2024-01-03'
+        },
+        {
+          id: 4,
+          category: 'Business Law',
+          section: 'Companies Act 2017 - Registration',
+          urduSummary: 'کمپنی کی رجسٹریشن کا طریقہ کار',
+          englishSummary: 'Company registration procedures and requirements',
+          status: 'review',
+          lastUpdated: '2024-01-02'
+        },
+        {
+          id: 5,
+          category: 'Civil Law',
+          section: 'Contract Act 1872 - Section 10',
+          urduSummary: 'معاہدے کی قانونی حیثیت اور شرائط',
+          englishSummary: 'Legal validity of contracts and conditions',
+          status: 'approved',
+          lastUpdated: '2024-01-01'
+        },
+        {
+          id: 6,
+          category: 'Labour Law',
+          section: 'Industrial Relations Act 2012',
+          urduSummary: 'مزدور کے حقوق اور ملازمت کے قوانین',
+          englishSummary: 'Worker rights and employment laws',
+          status: 'pending',
+          lastUpdated: '2023-12-30'
+        }
+      ];
+      setLegalEntries(initialData);
+      localStorage.setItem('legalKnowledgeBase', JSON.stringify(initialData));
     }
-  ];
+  }, []);
+
+  // Save to localStorage whenever entries change
+  const saveEntries = (entries: LegalEntry[]) => {
+    setLegalEntries(entries);
+    localStorage.setItem('legalKnowledgeBase', JSON.stringify(entries));
+  };
+
+  const handleApprove = (id: number) => {
+    const updatedEntries = legalEntries.map(entry =>
+      entry.id === id
+        ? { ...entry, status: 'approved' as const, lastUpdated: new Date().toISOString().split('T')[0] }
+        : entry
+    );
+    saveEntries(updatedEntries);
+  };
+
+  const handleReject = (id: number) => {
+    if (confirm('Are you sure you want to reject this entry? It will be removed.')) {
+      const updatedEntries = legalEntries.filter(entry => entry.id !== id);
+      saveEntries(updatedEntries);
+    }
+  };
+
+  const handleEdit = (entry: LegalEntry) => {
+    setEditingId(entry.id);
+    setEditForm({ ...entry });
+  };
+
+  const handleSaveEdit = () => {
+    if (!editForm) return;
+
+    const updatedEntries = legalEntries.map(entry =>
+      entry.id === editForm.id
+        ? { ...editForm, lastUpdated: new Date().toISOString().split('T')[0] }
+        : entry
+    );
+    saveEntries(updatedEntries);
+    setEditingId(null);
+    setEditForm(null);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditForm(null);
+  };
 
   const filteredEntries = legalEntries.filter(entry => {
     const matchesSearch = entry.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         entry.section.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         entry.urduSummary.includes(searchQuery) ||
-                         entry.englishSummary.toLowerCase().includes(searchQuery.toLowerCase());
+      entry.section.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      entry.urduSummary.includes(searchQuery) ||
+      entry.englishSummary.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = filterStatus === 'all' || entry.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
@@ -93,7 +152,7 @@ export function LegalKnowledgeBase() {
       review: Edit
     };
     const Icon = icons[status as keyof typeof icons];
-    
+
     return (
       <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs ${styles[status as keyof typeof styles]}`}>
         <Icon className="w-3 h-3" />
@@ -182,45 +241,129 @@ export function LegalKnowledgeBase() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredEntries.map((entry, index) => (
-                <tr 
-                  key={entry.id} 
-                  className="hover:bg-[#E8F5ED] transition-colors animate-fade-in-up"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <td className="px-6 py-4">
-                    <span className="inline-flex px-3 py-1 bg-[#1FAA59]/10 text-[#0B3D2E] rounded-lg text-sm">
-                      {entry.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-[#0B3D2E] text-sm max-w-xs">
-                    {entry.section}
-                  </td>
-                  <td className="px-6 py-4 text-[#0B3D2E]/70 text-sm max-w-xs urdu-text">
-                    {entry.urduSummary}
-                  </td>
-                  <td className="px-6 py-4 text-[#0B3D2E]/70 text-sm max-w-xs">
-                    {entry.englishSummary}
-                  </td>
-                  <td className="px-6 py-4">
-                    {getStatusBadge(entry.status)}
-                  </td>
-                  <td className="px-6 py-4 text-[#0B3D2E]/60 text-sm">
-                    {new Date(entry.lastUpdated).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <button className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors">
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button className="p-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors">
-                        <Check className="w-4 h-4" />
-                      </button>
-                      <button className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                editingId === entry.id ? (
+                  // Edit Mode Row
+                  <tr key={entry.id} className="bg-blue-50">
+                    <td className="px-6 py-4">
+                      <input
+                        type="text"
+                        value={editForm?.category || ''}
+                        onChange={(e) => setEditForm(prev => prev ? { ...prev, category: e.target.value } : null)}
+                        className="w-full px-3 py-2 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1FAA59] outline-none text-sm"
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <input
+                        type="text"
+                        value={editForm?.section || ''}
+                        onChange={(e) => setEditForm(prev => prev ? { ...prev, section: e.target.value } : null)}
+                        className="w-full px-3 py-2 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1FAA59] outline-none text-sm"
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <textarea
+                        value={editForm?.urduSummary || ''}
+                        onChange={(e) => setEditForm(prev => prev ? { ...prev, urduSummary: e.target.value } : null)}
+                        className="w-full px-3 py-2 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1FAA59] outline-none text-sm urdu-text"
+                        rows={2}
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <textarea
+                        value={editForm?.englishSummary || ''}
+                        onChange={(e) => setEditForm(prev => prev ? { ...prev, englishSummary: e.target.value } : null)}
+                        className="w-full px-3 py-2 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1FAA59] outline-none text-sm"
+                        rows={2}
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <select
+                        value={editForm?.status || 'pending'}
+                        onChange={(e) => setEditForm(prev => prev ? { ...prev, status: e.target.value as 'approved' | 'pending' | 'review' } : null)}
+                        className="px-3 py-2 bg-white rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1FAA59] outline-none text-sm"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="review">Review</option>
+                        <option value="approved">Approved</option>
+                      </select>
+                    </td>
+                    <td className="px-6 py-4 text-[#0B3D2E]/60 text-sm">
+                      {new Date(entry.lastUpdated).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={handleSaveEdit}
+                          className="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+                          title="Save changes"
+                        >
+                          <Save className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={handleCancelEdit}
+                          className="p-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                          title="Cancel editing"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  // Normal View Row
+                  <tr
+                    key={entry.id}
+                    className="hover:bg-[#E8F5ED] transition-colors animate-fade-in-up"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    <td className="px-6 py-4">
+                      <span className="inline-flex px-3 py-1 bg-[#1FAA59]/10 text-[#0B3D2E] rounded-lg text-sm">
+                        {entry.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-[#0B3D2E] text-sm max-w-xs">
+                      {entry.section}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B3D2E]/70 text-sm max-w-xs urdu-text">
+                      {entry.urduSummary}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B3D2E]/70 text-sm max-w-xs">
+                      {entry.englishSummary}
+                    </td>
+                    <td className="px-6 py-4">
+                      {getStatusBadge(entry.status)}
+                    </td>
+                    <td className="px-6 py-4 text-[#0B3D2E]/60 text-sm">
+                      {new Date(entry.lastUpdated).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleEdit(entry)}
+                          className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors"
+                          title="Edit entry"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleApprove(entry.id)}
+                          className="p-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors"
+                          title="Approve entry"
+                          disabled={entry.status === 'approved'}
+                        >
+                          <Check className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleReject(entry.id)}
+                          className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
+                          title="Reject entry"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )
               ))}
             </tbody>
           </table>

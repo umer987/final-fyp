@@ -9,6 +9,7 @@ import { AIMonitoring } from '../components/admin/AIMonitoring';
 import { UrduContentManagement } from '../components/admin/UrduContentManagement';
 import { UserQueriesFeedback } from '../components/admin/UserQueriesFeedback';
 import { AddLawyer } from '../components/admin/AddLawyer';
+import { SystemSettings } from '../components/admin/SystemSettings';
 
 export function AdminPanelPage() {
   const [currentView, setCurrentView] = useState('dashboard');
@@ -46,10 +47,7 @@ export function AdminPanelPage() {
           <p className="text-[#0B3D2E]/60">Under Development</p>
         </div>;
       case 'settings':
-        return <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-          <h3 className="text-2xl text-[#0B3D2E] mb-4">System Settings</h3>
-          <p className="text-[#0B3D2E]/60">Under Development</p>
-        </div>;
+        return <SystemSettings />;
       case 'logs':
         return <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
           <h3 className="text-2xl text-[#0B3D2E] mb-4">Logs & Security</h3>

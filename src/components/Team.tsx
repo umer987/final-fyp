@@ -55,7 +55,7 @@ export function Team() {
       specialty: 'UI/UX Designer',
       image: rameelImage
     }
- 
+  ];
 
   const supervisor = {
     name: 'ABDUL WAHAB KHAN',

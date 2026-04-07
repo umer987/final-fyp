@@ -49,6 +49,7 @@ export function Team() {
       image: aliImage
     },
     {
+      name: 'RAMEEL KHAN',
  
 
   const supervisor = {

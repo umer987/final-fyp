@@ -40,6 +40,8 @@ export function Team() {
       rollNo: 'Reg Id: BS(SE) 62602',
       specialty: 'Frontend Engineer',
       image: shahImage
+    },
+    {
  
 
   const supervisor = {

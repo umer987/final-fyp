@@ -46,6 +46,8 @@ export function Team() {
       role: 'Frontend Developer',
       rollNo: 'Reg Id: BS(SE) 60117',
       specialty: 'Nlp Engineer',
+      image: aliImage
+    },
  
 
   const supervisor = {

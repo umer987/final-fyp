@@ -51,6 +51,7 @@ export function Team() {
     {
       name: 'RAMEEL KHAN',
       role: 'Database Engineer',
+      rollNo: 'Reg Id: BS(SE) 62602',
  
 
   const supervisor = {

@@ -44,6 +44,8 @@ export function Team() {
     {
       name: 'AHMED ALI GHORI',
       role: 'Frontend Developer',
+      rollNo: 'Reg Id: BS(SE) 60117',
+      specialty: 'Nlp Engineer',
  
 
   const supervisor = {

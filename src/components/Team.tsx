@@ -54,6 +54,7 @@ export function Team() {
       rollNo: 'Reg Id: BS(SE) 62602',
       specialty: 'UI/UX Designer',
       image: rameelImage
+    }
  
 
   const supervisor = {

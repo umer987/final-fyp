@@ -56,7 +56,7 @@ export function Team() {
       image: rameelImage
     }
   ];
-sadfdasdas
+sadfdasdasdas
   const supervisor = {
     name: 'ABDUL WAHAB KHAN',
     title: 'MS, Computer Science',

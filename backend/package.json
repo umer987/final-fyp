@@ -1,0 +1,27 @@
+{
+  "name": "voice2law-backend",
+  "version": "1.0.0",
+  "description": "Voice2Law API — adapted from umer987/final-fyp Firebase Functions (functions/index.js) for local Express.",
+  "private": true,
+  "type": "commonjs",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.1.2",
+    "google-auth-library": "^10.7.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

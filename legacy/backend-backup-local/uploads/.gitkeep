@@ -1,0 +1,2 @@
+# This file keeps the uploads/ folder in version control.
+# Uploaded audio files are stored here at runtime but are ignored by git.

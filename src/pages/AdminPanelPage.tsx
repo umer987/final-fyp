@@ -1,0 +1,68 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { AdminSidebar } from '../components/admin/AdminSidebar';
+import { AdminTopBar } from '../components/admin/AdminTopBar';
+import { AdminDashboard } from '../components/admin/AdminDashboard';
+import { LegalKnowledgeBase } from '../components/admin/LegalKnowledgeBase';
+import { AIMonitoring } from '../components/admin/AIMonitoring';
+import { UrduContentManagement } from '../components/admin/UrduContentManagement';
+import { UserQueriesFeedback } from '../components/admin/UserQueriesFeedback';
+import { AddLawyer } from '../components/admin/AddLawyer';
+import { SystemSettings } from '../components/admin/SystemSettings';
+
+export function AdminPanelPage() {
+  const [currentView, setCurrentView] = useState('dashboard');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin-login', { replace: true });
+  };
+
+  const renderView = () => {
+    switch (currentView) {
+      case 'dashboard':
+        return <AdminDashboard />;
+      case 'knowledge-base':
+        return <LegalKnowledgeBase />;
+      case 'urdu-content':
+        return <UrduContentManagement />;
+      case 'ai-review':
+        return <AIMonitoring />;
+      case 'queries-feedback':
+        return <UserQueriesFeedback />;
+      case 'add-lawyer':
+        return <AddLawyer />;
+      case 'settings':
+        return <SystemSettings />;
+      default:
+        return <AdminDashboard />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#E8F5ED] to-white">
+      {/* Sidebar */}
+      <AdminSidebar 
+        currentView={currentView}
+        onViewChange={setCurrentView}
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
+
+      {/* Main Content Area */}
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-72'}`}>
+        {/* Top Bar */}
+        <AdminTopBar onLogout={handleLogout} sidebarCollapsed={sidebarCollapsed} />
+
+        {/* Content */}
+        <main className="pt-20 p-8">
+          {renderView()}
+        </main>
+      </div>
+    </div>
+  );
+}

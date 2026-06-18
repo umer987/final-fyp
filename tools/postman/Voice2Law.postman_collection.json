@@ -1,0 +1,307 @@
+{
+  "info": {
+    "name": "Voice2Law API",
+    "description": "Voice2Law FYP — backend (port 5000) and NLP microservice (port 8001).\n\nSet `auth_token` from login/register responses. Urdu example bodies included.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "backend_base", "value": "http://localhost:5000/api" },
+    { "key": "nlp_base", "value": "http://localhost:8001" },
+    { "key": "auth_token", "value": "" },
+    { "key": "lawyer_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Backend Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{backend_base}}/health"
+          }
+        },
+        {
+          "name": "NLP Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{nlp_base}}/health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const json = pm.response.json();",
+                  "  pm.environment.set('auth_token', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"testpass123\"\n}"
+            },
+            "url": "{{backend_base}}/auth/register"
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.environment.set('auth_token', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"testpass123\"\n}"
+            },
+            "url": "{{backend_base}}/auth/login"
+          }
+        },
+        {
+          "name": "Google OAuth (ID token)",
+          "description": "Paste a Google ID token from the SPA `@react-oauth/google` flow into `google_id_token`.",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.environment.set('auth_token', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"credential\": \"{{google_id_token}}\"\n}"
+            },
+            "url": "{{backend_base}}/auth/google"
+          }
+        },
+        {
+          "name": "Me (current user)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": "{{backend_base}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Queries",
+      "item": [
+        {
+          "name": "Ask (Urdu text)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}", "disabled": true }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"طلاق کا طریقہ کار کیا ہے؟\",\n  \"language\": \"urdu\"\n}"
+            },
+            "url": "{{backend_base}}/ask"
+          }
+        },
+        {
+          "name": "Ask (English text)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What are tenant rights in Pakistan?\",\n  \"language\": \"english\"\n}"
+            },
+            "url": "{{backend_base}}/ask"
+          }
+        },
+        {
+          "name": "Voice (browser transcript)",
+          "description": "Send transcript from browser STT without audio file.",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "transcript", "value": "کرایہ دار کے کیا حقوق ہیں؟", "type": "text" },
+                { "key": "language", "value": "urdu", "type": "text" }
+              ]
+            },
+            "url": "{{backend_base}}/voice"
+          }
+        },
+        {
+          "name": "Voice (audio upload)",
+          "description": "Attach a .webm/.wav audio file as form field `audio`.",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "audio", "type": "file", "src": "" },
+                { "key": "language", "value": "urdu", "type": "text" }
+              ]
+            },
+            "url": "{{backend_base}}/voice"
+          }
+        },
+        {
+          "name": "TTS (backend proxy)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"طلاق کے لیے عدالت میں درخواست دینا ضروری ہے۔\",\n  \"language\": \"urdu\"\n}"
+            },
+            "url": "{{backend_base}}/tts"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lawyers",
+      "item": [
+        {
+          "name": "List Lawyers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{backend_base}}/lawyers?city=Lahore&verified=true",
+              "host": ["{{backend_base}}"],
+              "path": ["lawyers"],
+              "query": [
+                { "key": "city", "value": "Lahore" },
+                { "key": "specialization", "value": "Family", "disabled": true },
+                { "key": "verified", "value": "true" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Lawyer by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{backend_base}}/lawyers/{{lawyer_id}}"
+          }
+        },
+        {
+          "name": "Create Lawyer (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.environment.set('lawyer_id', pm.response.json()._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Advocate Sample\",\n  \"specialization\": \"Family Law\",\n  \"city\": \"Lahore\",\n  \"phone\": \"03001234567\",\n  \"verified\": true\n}"
+            },
+            "url": "{{backend_base}}/lawyers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "NLP Direct (port 8001)",
+      "item": [
+        {
+          "name": "NLP Ask (Urdu)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"وراثت کی تقسیم کیسے ہوتی ہے؟\",\n  \"language\": \"urdu\"\n}"
+            },
+            "url": "{{nlp_base}}/ask"
+          }
+        },
+        {
+          "name": "NLP Transcribe",
+          "description": "Direct STT on NLP service. Attach audio as form field `audio`.",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "audio", "type": "file", "src": "" },
+                { "key": "language", "value": "urdu", "type": "text" }
+              ]
+            },
+            "url": "{{nlp_base}}/transcribe"
+          }
+        },
+        {
+          "name": "NLP TTS (Urdu)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"نکاح نامہ کی اہمیت بہت زیادہ ہے۔\",\n  \"language\": \"urdu\"\n}"
+            },
+            "url": "{{nlp_base}}/tts"
+          }
+        }
+      ]
+    }
+  ]
+}

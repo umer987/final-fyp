@@ -1,0 +1,15 @@
+{
+  "theme": "neutral",
+  "themeVariables": {
+    "background": "#ffffff",
+    "primaryColor": "#E8F5ED",
+    "primaryTextColor": "#0B3D2E",
+    "primaryBorderColor": "#1FAA59",
+    "lineColor": "#64748B",
+    "secondaryColor": "#F8FAFC",
+    "tertiaryColor": "#FFFFFF",
+    "fontFamily": "Segoe UI, Arial, sans-serif"
+  },
+  "flowchart": { "htmlLabels": true, "curve": "basis" },
+  "sequence": { "mirrorActors": false }
+}

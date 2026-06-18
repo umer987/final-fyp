@@ -1,0 +1,48 @@
+# Node modules
+node_modules/
+
+# Environment variables (never commit secrets)
+.env
+.env.local
+.env.*.local
+backend/.env
+nlp-service/.env
+
+# Firebase service account keys (never commit)
+service-account.json
+backend/service-account.json
+backend/*-firebase-adminsdk-*.json
+
+# Build output
+build/
+dist/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+nlp-service/venv/
+nlp-service/data/chroma/
+
+# Runtime uploads
+backend/uploads/
+!backend/uploads/.gitkeep
+
+# Local runtime logs & stale root data (active Chroma: nlp-service/data/chroma)
+logs/
+data/
+*.log
+
+# Netlify local
+.netlify/
+
+
+# Legacy Chroma snapshots (large local DB)
+legacy/old-chroma-data/
+
+# Local temp artifacts
+tmp/
+
+# GitHub size limit — keep locally; use nlp-service/scripts/download_legal_data.py
+nlp-service/legal_data/criminal/Criminal law DataSet.pdf
+nlp-service/legal_data/property/LAND PROPERTY .pdf

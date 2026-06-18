@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph Client["Client Layer"]
+        U[("User<br/>(Browser / Mobile)")]
+        UI["React 18 + Vite Frontend<br/>Port 5173"]
+    end
+
+    subgraph API["Application Layer"]
+        BE["Node.js + Express API<br/>Port 5000 /api"]
+        FB[("Firebase Firestore<br/>Queries, Lawyers, Admin")]
+    end
+
+    subgraph NLP["NLP Microservice Layer"]
+        FA["Python FastAPI<br/>Port 8001"]
+        STT["Speech-to-Text<br/>Whisper / ElevenLabs"]
+        RAG["RAG Engine<br/>Chroma + Embeddings"]
+        LLM["LLM Generation<br/>Gemini / Groq / HF"]
+        TTS["Text-to-Speech<br/>ElevenLabs / MMS-TTS"]
+        CACHE["Answer Cache<br/>JSON store"]
+    end
+
+    subgraph Data["Data Layer"]
+        CHROMA[("ChromaDB Vector Index<br/>~5,100 legal chunks")]
+        PDFS["Legal PDF Corpus<br/>penal Â· family Â· criminal Â· property"]
+    end
+
+    U --> UI
+    UI -->|"REST / JSON"| BE
+    BE --> FB
+    BE -->|"POST /ask, /tts"| FA
+    FA --> STT
+    FA --> RAG
+    RAG --> CHROMA
+    RAG --> LLM
+    FA --> CACHE
+    FA --> TTS
+    PDFS -.->|"ingest.py (offline)"| CHROMA
+    UI -->|"Voice audio"| BE
+    BE -->|"Transcribe"| STT
+    TTS -->|"Audio stream"| BE
+    BE --> UI

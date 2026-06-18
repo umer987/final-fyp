@@ -1,0 +1,18 @@
+[Unit]
+Description=Voice2Law NLP Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/voice2law/nlp-service
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=/etc/voice2law/nlp.env
+ExecStart=/opt/voice2law/nlp-service/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8001
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
